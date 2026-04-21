@@ -3,6 +3,7 @@ stages:
    - test
    - plan
    - deploy
+   -deploy_to_docker
 
 variables:
     ENV: "Dev"
@@ -39,6 +40,14 @@ plan_job:
 
 deploy_job:
     stage: deploy
+    needs: test
     script:
         - echo "This is deploy stage"
+
+docker_job:
+   stage: deploy_to_docker
+   before_script:
+      - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD $CI_REGISTRY
+   script:
+      - docker push $CI_REGISTRY
         
