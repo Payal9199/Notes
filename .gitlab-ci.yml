@@ -1,0 +1,44 @@
+stages:
+   - build
+   - test
+   - plan
+   - deploy
+
+variables:
+    ENV: "Dev"
+    JOB_NAME: "Gitlab-Test"
+
+build_job:
+    stage: build
+    script:
+        - echo "This is first build for $ENV"
+        - mkdir -p logs
+        - echo "there are my results" > logs/app.log
+    artifacts:
+        paths:
+            - logs/
+        expire_in: 1 week
+        # this is project runner/ self hosted runner
+    # tags:   
+    #     - dev
+
+test_job:
+    stage: test
+    script:
+        - echo "This is test job run for $JOB_NAME"
+
+test1:
+    stage: test
+    script:
+        - echo "This run parallel job"
+
+plan_job:
+    stage: plan
+    script:
+        - echo "This is plan job"
+
+deploy_job:
+    stage: deploy
+    script:
+        - echo "This is deploy stage"
+        
